@@ -2,19 +2,19 @@ import React from "react";
 
 import { Switch, Route } from "react-router-dom";
 
-import Nav from "../../components/Nav";
-import Articles from "../Articles";
-import Article from "../Article";
-import Category from "../Category";
+import { Nav } from "../../components/Nav";
+import { Home } from "../../modules/Home";
+import { HierarchyLevel } from "../../modules/HierarchyLevel";
+import { PageNotFound } from "../../modules/NotFound";
 
 function App() {
   return (
     <div className="App">
       <Nav />
       <Switch>
-        <Route path="/" component={Articles} exact />
-        <Route path="/article/:id" component={Article} exact />
-        <Route path="/category/:id" component={Category} exact />
+        <Route path="/" component={Home} exact />
+        <Route path="/hierarchy/:level" component={HierarchyLevel} exact />
+        <Route path="*" exact={true} component={PageNotFound} />
       </Switch>
     </div>
   );
