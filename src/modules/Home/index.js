@@ -1,20 +1,39 @@
-import React from "react";
-import { Query } from "../../components/Query";
+import React, { useEffect, useState } from "react";
 
-import { GET_HOME_PAGE } from "../../queries/homePage";
+import { APP_BACKEND_URL } from "../../utils/backEnd";
+import Spinner from "react-bootstrap/Spinner";
+
+import Jumbotron from "react-bootstrap/Jumbotron";
 
 export const Home = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [homePageContent, setHomePageContent] = useState();
+  const [fetchError, setFetchError] = useState();
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(`${APP_BACKEND_URL}/home-page`)
+      .then((response) => response.json())
+      .then((homePage) => {
+        setHomePageContent(homePage);
+      })
+      .catch((error) => {
+        setFetchError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
-    <div>
-      <div className="uk-section">
-        <div className="uk-container uk-container-large">
-          <Query query={GET_HOME_PAGE}>
-            {({ data: { homePage } }) => {
-              return <div>{homePage.Description}</div>;
-            }}
-          </Query>
-        </div>
-      </div>
-    </div>
+    <Jumbotron>
+      {fetchError}
+      {isLoading && (
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      )}
+      {homePageContent && homePageContent.Description}
+    </Jumbotron>
   );
 };

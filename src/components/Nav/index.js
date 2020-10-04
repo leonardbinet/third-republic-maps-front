@@ -1,43 +1,23 @@
 import React from "react";
-import { Query } from "../Query";
-import { Link } from "react-router-dom";
 
-import { HIERARCHY_LEVELS_QUERY } from "../../queries/hierarchyLevel";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 
-const Nav = () => {
+export const DynamicNavBar = () => {
+  // could fetch from api if properly cached
+  const menus = [
+    { link: "canton", label: "Canton" },
+    { link: "departement", label: "Departement" },
+  ];
+
   return (
-    <div>
-      <Query query={HIERARCHY_LEVELS_QUERY}>
-        {({ data: { hierarchyLevels } }) => {
-          return (
-            <div>
-              <nav className="uk-navbar-container" data-uk-navbar>
-                <div className="uk-navbar-left">
-                  <h2>Third Republic Maps</h2>
-                </div>
-                <div className="uk-navbar-right">
-                  <ul className="uk-navbar-nav">
-                    {hierarchyLevels.map((hierarchy, i) => {
-                      return (
-                        <li key={hierarchy.id}>
-                          <Link
-                            to={`/hierarchy/${hierarchy.Level}`}
-                            className="uk-link-reset"
-                          >
-                            {hierarchy.LevelLabel}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </nav>
-            </div>
-          );
-        }}
-      </Query>
-    </div>
+    <Navbar bg="light">
+      <Navbar.Brand href="/">Historical Maps</Navbar.Brand>
+      <Nav className="mr-auto">
+        {menus.map((l) => (
+          <Nav.Link href={`/hierarchy/${l.link}`}>{l.label}</Nav.Link>
+        ))}
+      </Nav>
+    </Navbar>
   );
 };
-
-export { Nav };
