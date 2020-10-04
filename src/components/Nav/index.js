@@ -14,8 +14,11 @@ export const DynamicNavBar = () => {
     <Navbar bg="light">
       <Navbar.Brand href="/">Historical Maps</Navbar.Brand>
       <Nav className="mr-auto">
-        {menus.map((l) => (
-          <Nav.Link href={`/hierarchy/${l.link}`}>{l.label}</Nav.Link>
+        <Nav.Link href="/map">Map</Nav.Link>
+        {menus.map((l, i) => (
+          <Nav.Link href={`/hierarchy/${l.link}`} key={i}>
+            {l.label}
+          </Nav.Link>
         ))}
       </Nav>
     </Navbar>
